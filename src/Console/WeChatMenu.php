@@ -10,8 +10,8 @@
 namespace FastD\WeChatProvider\Console;
 
 
-use EasyWeChat\Core\Exception;
-use EasyWeChat\Menu\Menu;
+use EasyWeChat\Kernel\Exceptions\Exception;
+use EasyWeChat\OfficialAccount\Menu\Client as Menu;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -56,7 +56,8 @@ class WeChatMenu extends Command
     {
         try {
             $reorganization = [];
-            $menus = $menu->all()->all()['menu']['button'];
+
+            $menus = $menu->list()['menu']['button'];
 
             $max = 0;
             foreach ($menus as $item => $value) {
@@ -102,7 +103,7 @@ class WeChatMenu extends Command
      */
     protected function create(Menu $menu)
     {
-        if ('ok' === $menu->add(config()->get('wechat.menu'))->get('errmsg')) {
+        if ('ok' === $menu->create(config()->get('wechat.menu'))->get('errmsg')) {
             output()->writeln('<info>✔︎ 菜单添加成功</info>');
 
             $this->query($menu);
@@ -114,7 +115,7 @@ class WeChatMenu extends Command
      */
     protected function delete(Menu $menu)
     {
-        if ('ok' === $menu->destroy()->get('errmsg')) {
+        if ('ok' === $menu->delete()->get('errmsg')) {
             output()->writeln('<info>✔︎ 菜单删除成功</info>');
 
             $this->query($menu);

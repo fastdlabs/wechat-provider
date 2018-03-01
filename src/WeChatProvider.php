@@ -11,6 +11,7 @@ namespace FastD\WeChatProvider;
 
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
+use FastD\WeChatProvider\Console\WeChatMenu;
 use FastD\WeChatProvider\Controller\GatewayController;
 use FastD\WeChatProvider\Controller\MessageController;
 
@@ -34,5 +35,11 @@ class WeChatProvider implements ServiceProviderInterface
 
         route()->get('/', [new GatewayController(), 'valid']);
         route()->post('/', [new MessageController(), 'pushMessage']);
+
+        config()->merge([
+            'consoles' => [
+                WeChatMenu::class
+            ]
+        ]);
     }
 }
