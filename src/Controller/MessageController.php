@@ -22,13 +22,14 @@ class MessageController
     /**
      * @param ServerRequest $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \EasyWeChat\Core\Exceptions\InvalidArgumentException
-     * @throws \EasyWeChat\Server\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\BadRequestException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidArgumentException
+     * @throws \EasyWeChat\Kernel\Exceptions\InvalidConfigException
      */
     public function pushMessage(ServerRequest $request)
     {
         $server = wechat()->server;
-        $server->setMessageHandler(function ($message) {
+        $server->push(function ($message) {
             $forward = '\\WeChat\\'.ucfirst($message->MsgType);
             return call_user_func_array([new $forward(), 'handle'], [$message]);
         });
