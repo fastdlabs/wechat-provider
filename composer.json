@@ -12,7 +12,10 @@
     },
     "autoload": {
         "psr-4": {
-            "FastD\\WechatProvider\\": "src"
-        }
+            "FastD\\WeChatProvider\\": "src"
+        },
+        "files": [
+            "helpers.php"
+        ]
     }
 }
